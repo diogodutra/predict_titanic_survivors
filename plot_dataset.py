@@ -44,3 +44,24 @@ def scatter_labels(df, target, alpha=0.5
     colors = df[target].map(lambda x: color_wheel.get(x))
     ax = scatter_matrix(df, color=colors, alpha=alpha, figsize=(16, 16), diagonal='hist')
     plt.show()
+    
+
+def hist_features(df, label):
+    colors = ['DarkRed', 'DarkGreen']
+    
+    #names = ['<=50K', '>50K']
+    names = df[label].unique().tolist()
+
+    n_plots = df.shape[1]-1
+    i_plot = 0
+    for i in df.columns: #bug, check for axis_y existance in data
+        if i!=label:
+            plt.figure(i_plot)
+            i_plot += 1
+            #plt.subplot(n_plots, 3, i_plot)
+            #plt.subplot(1, 1, 1)
+            x1 = list(df[df[label] == 0][i])
+            x2 = list(df[df[label] == 1][i])
+            plt.hist([x1, x2], color = colors, label=names)
+            plt.legend()
+            plt.title(label +' by ' + i)
